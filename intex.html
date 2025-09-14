@@ -2,113 +2,35 @@
 <html lang="en-US">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Casegear - Editable Clone</title>
-    <!-- Tailwind CSS for styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Google Fonts for typography -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
-    <!-- Custom styles to mimic the original site and add new features -->
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            color: #333;
-        }
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale-1.0">
+        <title>Rahmora</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="style.css">
+        <!-- ... all your other HTML content like the footer ... -->
 
-        .header-top {
-            background-color: #f9f9f9;
-            border-bottom: 1px solid #e5e5e5;
-        }
+        <a href="https://wa.me/+918084801080" target="_blank" class="fixed bottom-6 right-6 ...">
+            <i class="fab fa-whatsapp text-3xl"></i>
+        </a>
 
-        .nav-link {
-            position: relative;
-            color: #333;
-            font-weight: 600;
-            padding-bottom: 5px;
-            transition: color 0.3s ease;
-        }
+        <!-- ✅ This is the correct way to link your script -->
+        <script src="js/script.js"></script>
 
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: #fdd700;
-            transition: width 0.3s ease;
-        }
+        </body>
 
-        .nav-link:hover {
-            color: #000;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        .hero-section {
-            background-size: cover;
-            background-position: center;
-            transition: background-image 0.5s ease-in-out;
-        }
-
-        .product-card,
-        .category-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .product-card:hover,
-        .category-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .footer {
-            background-color: #1f1f1f;
-            color: #a9a9a9;
-        }
-
-        .footer-link:hover {
-            color: #ffffff;
-        }
-
-        .search-bar {
-            border: 2px solid #fdd700;
-        }
-
-        /* Style for the toast notification */
-        #toast {
-            position: fixed;
-            bottom: -100px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #2d3748;
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 0.5rem;
-            transition: bottom 0.5s ease-in-out;
-            z-index: 50;
-        }
-
-        #toast.show {
-            bottom: 30px;
-        }
-    </style>
+</html>
+</head>
 </head>
 
 <body class="bg-white">
 
-    <!-- Header -->
     <header class="shadow-md sticky top-0 bg-white z-40">
-        <!-- Top bar -->
         <div class="header-top py-2 text-xs hidden md:block">
             <div class="container mx-auto px-4 flex justify-between items-center">
                 <p class="font-semibold">FREE SHIPPING ON ALL PREPAID ORDERS</p>
@@ -116,21 +38,17 @@
             </div>
         </div>
 
-        <!-- Main header -->
         <div class="header-main py-4">
             <div class="container mx-auto px-4 flex justify-between items-center">
-                <!-- Mobile Menu Toggle -->
                 <button id="menu-toggle" class="md:hidden text-2xl">
                     <i class="fas fa-bars"></i>
                 </button>
 
-                <!-- Logo -->
                 <a href="#" class="flex-shrink-0">
-                    <img src="Images/rahmora Transparent .png" alt="Casegear Logo"
+                    <img src="Images/rahmora Transparent .png" alt="Rahmora Logo"
                         class="h-full max-h-20 w-auto object-contain">
                 </a>
 
-                <!-- Search Bar (Desktop) -->
                 <div class="w-1/3 relative hidden md:block">
                     <input type="text" placeholder="Search for products..."
                         class="w-full px-4 py-2 rounded-full search-bar focus:outline-none">
@@ -139,7 +57,6 @@
                     </button>
                 </div>
 
-                <!-- Icons -->
                 <div class="flex items-center space-x-4 md:space-x-6 text-xl">
                     <a href="#" class="hover:text-yellow-500"><i class="fa fa-user"></i></a>
                     <a href="#" class="hover:text-yellow-500 relative">
@@ -156,7 +73,6 @@
             </div>
         </div>
 
-        <!-- Navigation (Desktop) -->
         <nav class="bg-white border-t border-b border-gray-200 hidden md:block">
             <div class="container mx-auto px-4 flex justify-center items-center space-x-8 py-3">
                 <a href="#" class="nav-link">PHONE COVERS</a>
@@ -169,7 +85,6 @@
             </div>
         </nav>
 
-        <!-- Mobile Navigation (Hidden by default) -->
         <div id="mobile-menu"
             class="fixed top-0 left-0 h-full w-64 bg-white shadow-lg p-6 transform -translate-x-full transition-transform duration-300 ease-in-out md:hidden z-50">
             <button id="menu-close" class="absolute top-4 right-4 text-2xl">&times;</button>
@@ -184,18 +99,12 @@
                 <a href="#" class="nav-link">LAPTOP SLEEVES</a>
             </nav>
         </div>
-
     </header>
 
-    <!-- Main Content -->
     <main>
-        <!-- Hero Section with Slider -->
-        <section id="hero-slider" class="hero-section h-[60vh] md:h-96 w-full relative group overflow-hidden">
-
-            <!-- Overlay -->
+        <section class="hero-section h-[60vh] md:h-96 w-full relative group overflow-hidden">
             <div class="absolute inset-0 bg-black bg-opacity-20 z-10"></div>
 
-            <!-- Slider Images -->
             <div id="slides" class="flex w-full h-full transition-transform duration-700 ease-in-out">
                 <img src="Images/rahmora.jpeg" alt="Slide 1" class="w-full h-full object-cover flex-shrink-0">
                 <video autoplay muted loop playsinline class="w-full h-full object-contain bg-black flex-shrink-0">
@@ -206,7 +115,6 @@
                     class="w-full h-full object-cover flex-shrink-0">
             </div>
 
-            <!-- Navigation Buttons -->
             <button id="prev-slide"
                 class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/50 p-2 rounded-full text-black hover:bg-white transition opacity-0 group-hover:opacity-100 z-20">
                 <i class="fas fa-chevron-left"></i>
@@ -217,22 +125,19 @@
             </button>
         </section>
 
-
-        <!-- Brands Section -->
         <section class="py-8">
             <div class="container mx-auto px-4">
                 <div class="flex flex-wrap justify-around items-center gap-4">
-                    <img src="Images/apple_731985.png" alt="Apple" class="h-12 md:h-16  transition duration-300">
-                    <img src="Images/samsung_5969116.png" alt="Samsung" class="h-8 md:h-10  transition duration-300">
-                    <img src="Images/one-plus_882743.png" alt="OnePlus" class="h-10 md:h-12  transition duration-300">
+                    <img src="Images/apple_731985.png" alt="Apple" class="h-12 md:h-16 transition duration-300">
+                    <img src="Images/samsung_5969116.png" alt="Samsung" class="h-8 md:h-10 transition duration-300">
+                    <img src="Images/one-plus_882743.png" alt="OnePlus" class="h-10 md:h-12 transition duration-300">
                     <img src="Images/vecteezy_google-pixel-logo-g-emblem-icon-premium-quality-transparent_67592935.png"
                         alt="Pixel" class="h-10 md:h-12 grayscale hover:grayscale-0 transition duration-300">
-                    <img src="Images/Nothing_Logo.webp.png" alt="Nothing" class="h-10 md:h-12  transition duration-300">
+                    <img src="Images/Nothing_Logo.webp.png" alt="Nothing" class="h-10 md:h-12 transition duration-300">
                 </div>
             </div>
         </section>
 
-        <!-- Categories -->
         <section class="py-12 bg-gray-50">
             <div class="container mx-auto px-4">
                 <h2 class="text-3xl font-bold text-center mb-8">Shop By Category</h2>
@@ -271,12 +176,10 @@
             </div>
         </section>
 
-        <!-- Featured Products -->
         <section class="py-12">
             <div class="container mx-auto px-4">
                 <h2 class="text-3xl font-bold text-center mb-8">Featured Products</h2>
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-                    <!-- Product Card -->
                     <div class="product-card rounded-lg overflow-hidden border">
                         <div class="relative group">
                             <img src="Images/RAHMORA IMAGES/WALLLET/WPHONE.jpg" alt="Product Image"
@@ -295,7 +198,6 @@
                                 to Cart</button>
                         </div>
                     </div>
-                    <!-- Product Card -->
                     <div class="product-card rounded-lg overflow-hidden border">
                         <div class="relative group">
                             <img src="Images/RAHMORA IMAGES/WALLLET/4.jpg" alt="Product Image"
@@ -314,7 +216,6 @@
                                 to Cart</button>
                         </div>
                     </div>
-                    <!-- Product Card -->
                     <div class="product-card rounded-lg overflow-hidden border">
                         <div class="relative group">
                             <img src="Images/RAHMORA IMAGES/WALLLET/5.jpg" alt="Product Image"
@@ -333,7 +234,6 @@
                                 to Cart</button>
                         </div>
                     </div>
-                    <!-- Product Card -->
                     <div class="product-card rounded-lg overflow-hidden border">
                         <div class="relative group">
                             <img src="Images/RAHMORA IMAGES/WALLLET/BLACK.jpg" alt="Product Image"
@@ -355,15 +255,13 @@
                 </div>
             </div>
         </section>
-
     </main>
 
-    <!-- Footer -->
     <footer class="footer pt-12 pb-8">
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
-                    <img src="Images/Rahmora White.png" class="h-8 mb-4" alt="Casegear">
+                    <img src="Images/Rahmora White.png" class="h-8 mb-4" alt="Rahmora">
                     <p class="text-sm">India's leading brand for mobile phone accessories.</p>
                 </div>
                 <div>
@@ -398,7 +296,7 @@
             </div>
             <div
                 class="border-t border-gray-700 mt-8 pt-6 text-center text-sm flex flex-col md:flex-row justify-between items-center">
-                <p>&copy; 2024 Casegear Clone. All Rights Reserved.</p>
+                <p>&copy; 2025 Rahmora. All Rights Reserved.</p>
                 <div class="flex space-x-4 text-xl mt-4 md:mt-0">
                     <a href="#" class="footer-link"><i class="fab fa-facebook"></i></a>
                     <a href="#" class="footer-link"><i class="fab fa-instagram"></i></a>
@@ -408,119 +306,14 @@
         </div>
     </footer>
 
-    <!-- Toast Notification -->
     <div id="toast">Item added to cart!</div>
 
-    <!-- JavaScript for interactivity -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // --- Mobile Menu ---
-            const menuToggle = document.getElementById('menu-toggle');
-            const menuClose = document.getElementById('menu-close');
-            const mobileMenu = document.getElementById('mobile-menu');
-
-            menuToggle.addEventListener('click', () => {
-                mobileMenu.classList.remove('-translate-x-full');
-            });
-            menuClose.addEventListener('click', () => {
-                mobileMenu.classList.add('-translate-x-full');
-            });
-
-            // --- Hero Slider ---
-            const slides = [
-                'https://casegear.in/wp-content/uploads/2024/02/Desktop-5-copy.jpg',
-                'https://casegear.in/wp-content/uploads/2023/09/Desktop-4.jpg',
-                'https://casegear.in/wp-content/uploads/2024/01/Desktop-1-1.jpg'
-            ];
-            let currentSlide = 0;
-            const slider = document.getElementById('hero-slider');
-            const prevBtn = document.getElementById('prev-slide');
-            const nextBtn = document.getElementById('next-slide');
-
-            function showSlide(index) {
-                slider.style.backgroundImage = `url('${slides[index]}')`;
-            }
-
-            function nextSlide() {
-                currentSlide = (currentSlide + 1) % slides.length;
-                showSlide(currentSlide);
-            }
-
-            function prevSlide() {
-                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-                showSlide(currentSlide);
-            }
-
-            showSlide(currentSlide); // Initial slide
-            setInterval(nextSlide, 5000); // Auto-play slides
-            prevBtn.addEventListener('click', prevSlide);
-            nextBtn.addEventListener('click', nextSlide);
-
-            // --- Cart & Wishlist Logic ---
-            const cartCountEl = document.getElementById('cart-count');
-            const wishlistCountEl = document.getElementById('wishlist-count');
-            const addToCartButtons = document.querySelectorAll('.add-to-cart');
-            const addToWishlistButtons = document.querySelectorAll('.add-to-wishlist');
-            const toast = document.getElementById('toast');
-
-            addToCartButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    let currentCount = parseInt(cartCountEl.textContent);
-                    cartCountEl.textContent = currentCount + 1;
-
-                    // Show toast notification
-                    toast.classList.add('show');
-                    setTimeout(() => {
-                        toast.classList.remove('show');
-                    }, 3000);
-                });
-            });
-
-            addToWishlistButtons.forEach(button => {
-                button.addEventListener('click', (e) => {
-                    e.preventDefault(); // Prevent link behavior
-                    let currentCount = parseInt(wishlistCountEl.textContent);
-                    wishlistCountEl.textContent = currentCount + 1;
-
-                    // Toggle heart icon fill
-                    const icon = button.querySelector('i');
-                    icon.classList.toggle('far');
-                    icon.classList.toggle('fas');
-                    icon.classList.toggle('text-red-500');
-
-                    // Disable button after one click to prevent multiple adds
-                    button.disabled = true;
-                });
-            });
-        });
-    </script>
-    <script>
-        const slides = document.getElementById("slides");
-        const prev = document.getElementById("prev-slide");
-        const next = document.getElementById("next-slide");
-
-        let index = 0;
-        const totalSlides = slides.children.length;
-
-        function showSlide(i) {
-            index = (i + totalSlides) % totalSlides;
-            slides.style.transform = `translateX(-${index * 100}%)`;
-        }
-
-        next.addEventListener("click", () => showSlide(index + 1));
-        prev.addEventListener("click", () => showSlide(index - 1));
-
-        // Auto-slide every 5s
-    </script>
-
-    <!-- WhatsApp Floating Button -->
     <a href="https://wa.me/+918084801080" target="_blank"
         class="fixed bottom-6 right-6 bg-green-500 text-white rounded-full p-4 shadow-lg hover:scale-110 transition transform z-50">
         <i class="fab fa-whatsapp text-3xl"></i>
     </a>
 
-
-
+    <script src="js/script.js"></script>
 </body>
 
 </html>
