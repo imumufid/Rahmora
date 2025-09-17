@@ -14,51 +14,42 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // --- CORRECTED HERO SLIDER LOGIC ---
+    // --- Hero Slider Logic ---
     const slidesContainer = document.getElementById("slides");
     const prevBtn = document.getElementById("prev-slide");
     const nextBtn = document.getElementById("next-slide");
 
-    // Check if slider elements exist on the page to prevent errors
     if (slidesContainer && prevBtn && nextBtn) {
         let currentIndex = 0;
-        // Correctly gets the number of slides (children elements)
         const totalSlides = slidesContainer.children.length;
         let slideInterval;
 
-        // This function moves the slides container
         function goToSlide(index) {
-            // This math trick makes the slider loop from the last slide back to the first, and vice-versa
             currentIndex = (index + totalSlides) % totalSlides;
             slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
         }
 
-        // This function starts the automatic slide transition
         function startSlideShow() {
             slideInterval = setInterval(() => {
                 goToSlide(currentIndex + 1);
-            }, 5000); // Change slide every 5 seconds
+            }, 5000);
         }
 
-        // This function resets the timer whenever the user clicks an arrow
         function resetInterval() {
-            clearInterval(slideInterval); // Stop the current timer
-            startSlideShow(); // Start a new one
+            clearInterval(slideInterval);
+            startSlideShow();
         }
 
-        // Event listener for the "next" button
         nextBtn.addEventListener("click", () => {
             goToSlide(currentIndex + 1);
-            resetInterval(); // Reset timer on manual click
+            resetInterval();
         });
 
-        // Event listener for the "previous" button
         prevBtn.addEventListener("click", () => {
             goToSlide(currentIndex - 1);
-            resetInterval(); // Reset timer on manual click
+            resetInterval();
         });
 
-        // Start the slideshow automatically when the page loads
         startSlideShow();
     }
 
@@ -106,4 +97,30 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
     }
+
+    // --- REVISED: Pagination Logic ---
+    const paginationContainer = document.getElementById('pagination-container');
+
+    if (paginationContainer) {
+        const pageLinks = paginationContainer.querySelectorAll('.pagination-link');
+
+        pageLinks.forEach(link => {
+            link.addEventListener('click', function (event) {
+                event.preventDefault(); // Stop the link from trying to navigate
+
+                // Remove active styles from all page links
+                pageLinks.forEach(item => {
+                    item.classList.remove('bg-yellow-400', 'text-black', 'font-bold');
+                    item.classList.add('text-gray-500', 'hover:text-black', 'hover:bg-gray-200');
+                });
+
+                // Add active styles to the clicked link
+                this.classList.add('bg-yellow-400', 'text-black', 'font-bold');
+                this.classList.remove('text-gray-500', 'hover:text-black', 'hover:bg-gray-200');
+
+                console.log("Active page is now:", this.textContent);
+            });
+        });
+    }
 });
+
