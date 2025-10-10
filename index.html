@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rahmora</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+        }
+
+        .header-top {
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .nav-link {
+            position: relative;
+            color: #333;
+            font-weight: 600;
+            padding-bottom: 5px;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #fdd700;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #000;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .hero-section {
+            background-size: cover;
+            background-position: center;
+            transition: background-image 0.5s ease-in-out;
+        }
+
+        .product-card,
+        .category-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .product-card:hover,
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer {
+            background-color: #000000;
+            color: #a9a9a9;
+        }
+
+        .footer-link {
+            cursor: pointer;
+        }
+
+        .footer-link:hover {
+            color: #ffffff;
+        }
+
+        .search-bar {
+            border: 2px solid #fdd700;
+        }
+
+        #toast {
+            position: fixed;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #2d3748;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            transition: bottom 0.5s ease-in-out;
+            z-index: 50;
+        }
+
+        #toast.show {
+            bottom: 30px;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(100%);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        .animate-marquee {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 25s linear infinite;
+        }
+
+        /* Product Detail Page Thumbnail Styling */
+        .thumbnail-img.active {
+            border: 2px solid #fdd700;
+        }
+    </style>
+</head>
+
+<body class="bg-white">
+
+    <header class="shadow-md sticky top-0 bg-white z-40">
+        <div class="header-top py-2 text-xs hidden md:block">
+            <div class="container mx-auto px-4 flex justify-between items-center">
+                <p class="font-semibold">FREE SHIPPING ON ALL PREPAID ORDERS</p>
+                <a href="#" class="hover:text-black">Track Your Order</a>
+            </div>
+        </div>
+
+        <div class="header-main py-4">
+            <div class="container mx-auto px-4 flex justify-between items-center">
+                <button id="menu-toggle" class="md:hidden text-2xl">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <a href="#" class="flex-shrink-0 nav-link-js" data-page="home">
+                    <img src="Images/RAHMORA IMAGES/OTHER/Rahmora White LOGO.png"
+                        onerror="this.onerror=null;this.src='https://placehold.co/200x50/000000/FFFFFF?text=RAHMORA';"
+                        alt="Rahmora Logo" class="h-full max-h-10 w-auto object-contain">
+                </a>
+
+                <div class="w-1/3 relative hidden md:block">
+                    <input type="text" placeholder="Search for products..."
+                        class="w-full px-4 py-2 rounded-full search-bar focus:outline-none">
+                    <button class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+
+                <div class="flex items-center space-x-4 md:space-x-6 text-xl">
+                    <a href="#" class="hover:text-yellow-500"><i class="fa fa-user"></i></a>
+                    <a href="#" class="hover:text-yellow-500 relative">
+                        <i class="fa fa-heart"></i>
+                        <span id="wishlist-count"
+                            class="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs rounded-full h-4 w-4 flex items-center justify-center">0</span>
+                    </a>
+                    <a href="#" class="hover:text-yellow-500 relative nav-link-js" data-page="cart">
+                        <i class="fa fa-shopping-cart"></i>
+                        <span id="cart-count"
+                            class="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs rounded-full h-4 w-4 flex items-center justify-center">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <nav class="bg-white border-t border-b border-gray-200 hidden md:block">
+            <div class="container mx-auto px-4 flex justify-center items-center space-x-8 py-3">
+                <a class="nav-link nav-link-js" data-page="phone-covers">PHONE COVERS</a>
+                <a class="nav-link nav-link-js" data-page="tempered-glass">TEMPERED GLASS</a>
+                <a class="nav-link nav-link-js" data-page="magsafe-wallet">MAGSAFE WALLET</a>
+                <a class="nav-link nav-link-js" data-page="membrane-protector">MEMBRANE PROTECTOR</a>
+            </div>
+        </nav>
+
+        <div id="mobile-menu"
+            class="fixed top-0 left-0 h-full w-64 bg-white shadow-lg p-6 transform -translate-x-full transition-transform duration-300 ease-in-out md:hidden z-50">
+            <button id="menu-close" class="absolute top-4 right-4 text-2xl">&times;</button>
+            <h2 class="text-xl font-bold mb-6">Menu</h2>
+            <nav class="flex flex-col space-y-4">
+                <a class="nav-link nav-link-js" data-page="phone-covers">PHONE COVERS</a>
+                <a class="nav-link nav-link-js" data-page="tempered-glass">TEMPERED GLASS</a>
+                <a class="nav-link nav-link-js" data-page="magsafe-wallet">MAGSAFE WALLET</a>
+                <a class="nav-link nav-link-js" data-page="membrane-protector">MEMBRANE PROTECTOR</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Offer Banner -->
+    <div class="bg-yellow-400 text-black py-2 overflow-hidden whitespace-nowrap">
+        <p class="animate-marquee">WWW.RAHMORA.COM INFO@RAHMORA.COM SPECIAL OFFER: GET 20% OFF ON ALL SILICONE CASES!
+            USE CODE: RAHMORA20</p>
+    </div>
+
+    <main>
+        <!-- Page: Home -->
+        <div id="page-home" class="page">
+            <section class="hero-section h-[60vh] md:h-96 w-full relative group overflow-hidden mt-2">
+                <div class="absolute inset-0 bg-black bg-opacity-20 z-10"></div>
+                <div id="slides" class="flex w-full h-full transition-transform duration-700 ease-in-out">
+                    <img src="Images/edited/landscape ps.png" alt="Slide 2"
+                        class="w-full h-full object-cover flex-shrink-0">
+                    <img src="Images/edited/ladscape.png" alt="Slide 1"
+                        class="w-full h-full object-cover flex-shrink-0">
+                    <img src="Images/edited/landscape.png" alt="Slide 2"
+                        class="w-full h-full object-cover flex-shrink-0">
+                    <img src="Images/edited/landscape ps1.png" alt="Slide 4"
+                        class="w-full h-full object-cover flex-shrink-0">
+                </div>
+                <button id="prev-slide"
+                    class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/50 p-2 rounded-full text-black hover:bg-white transition opacity-0 group-hover:opacity-100 z-20">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button id="next-slide"
+                    class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/50 p-2 rounded-full text-black hover:bg-white transition opacity-0 group-hover:opacity-100 z-20">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </section>
+
+            <section class="py-8">
+                <div class="container mx-auto px-4">
+                    <div class="flex flex-wrap justify-around items-center gap-4">
+                        <img src="Images/RAHMORA IMAGES/OTHER/apple.png" alt="Apple"
+                            class="h-12 md:h-16 transition duration-300">
+                        <img src="Images/RAHMORA IMAGES/OTHER/SAMSUNG.png" alt="Samsung"
+                            class="h-8 md:h-10 transition duration-300">
+                        <img src="Images/RAHMORA IMAGES/OTHER/1+.png" alt="OnePlus"
+                            class="h-10 md:h-12 transition duration-300">
+                        <img src="Images/RAHMORA IMAGES/OTHER/google.png" alt="Pixel"
+                            class="h-10 md:h-12 grayscale hover:grayscale-0 transition duration-300">
+                        <img src="Images/RAHMORA IMAGES/OTHER/nothing.png" alt="Nothing"
+                            class="h-10 md:h-12 transition duration-300">
+                    </div>
+                </div>
+            </section>
+
+            <section class="py-12 bg-gray-50">
+                <div class="container mx-auto px-4 ">
+                    <h2 class="text-3xl font-bold text-center mb-8">Shop By Category</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 ">
+                        <div class="category-card bg-white rounded-lg overflow-hidden shadow-md text-center p-4 nav-link-js"
+                            data-page="phone-covers">
+                            <img src="Images/edited/phonecover1.png" alt="Phone Covers"
+                                class="mx-auto h-24 md:h-32 object-contain">
+                            <h3 class="font-semibold mt-4">Phone Covers</h3>
+                        </div>
+                        <div class="category-card bg-white rounded-lg overflow-hidden shadow-md text-center p-4 nav-link-js"
+                            data-page="tempered-glass">
+                            <img src="Images/edited/temperedglass.png" alt="Tempered Glass"
+                                class="mx-auto h-24 md:h-32 object-contain">
+                            <h3 class="font-semibold mt-4">Tempered Glass</h3>
+                        </div>
+                        <div class="category-card bg-white rounded-lg overflow-hidden shadow-md text-center p-4 nav-link-js"
+                            data-page="magsafe-wallet">
+                            <img src="Images/edited/WALLET.png" alt=" Magsafe Wallet"
+                                class="mx-auto h-24 md:h-32 object-contain">
+                            <h3 class="font-semibold mt-4">Magsafe Wallet</h3>
+                        </div>
+                        <div class="category-card bg-white rounded-lg overflow-hidden shadow-md text-center p-4 nav-link-js"
+                            data-page="membrane-protector">
+                            <img src="Images/edited/MEMBRANE.png" alt="Membrane Protector"
+                                class="mx-auto h-24 md:h-32 object-contain">
+                            <h3 class="font-semibold mt-4">Membrane Protector</h3>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <section class="py-12">
+                <div class="container mx-auto px-4">
+                    <h2 class="text-3xl font-bold text-center mb-8">Featured Products</h2>
+                    <!-- Featured products will be dynamically injected here -->
+                    <div id="featured-products-grid"
+                        class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Page: About Us -->
+        <div id="page-about" class="page hidden">
+            <section class="relative h-72 bg-gray-800">
+                <img src="Images/RAHMORA IMAGES/CASES/BLUE1.jpg" alt="Team working on designs"
+                    class="w-full h-full object-cover opacity-40">
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="text-center text-white">
+                        <h1 class="text-4xl md:text-6xl font-bold">About Rahmora</h1>
+                        <p class="text-lg mt-2">Crafting Quality Accessories for Your Digital Life.</p>
+                    </div>
+                </div>
+            </section>
+            <div class="container mx-auto px-4 py-12 md:py-16">
+                <section class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-16">
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-800 mb-4">Our Story</h2>
+                        <p class="text-gray-600 mb-4 leading-relaxed">
+                            Founded in the vibrant city of Chennai in 2022, Rahmora started with a simple idea: to
+                            create mobile accessories that are not only functional and protective but also stylish and
+                            expressive. We saw a market flooded with generic products and knew we could do better. Our
+                            journey began with a small, dedicated team passionate about technology and design, working
+                            tirelessly to bring our vision to life.
+                        </p>
+                        <p class="text-gray-600 leading-relaxed">
+                            Today, Rahmora has grown into a trusted brand known for its commitment to quality,
+                            innovation, and customer satisfaction. We believe your tech is an extension of your
+                            personality, and our products are designed to help you showcase it.
+                        </p>
+                    </div>
+                    <div>
+                        <img src="Images/RAHMORA IMAGES/WALLLET/5.jpg" alt="Rahmora product lineup"
+                            class="rounded-lg shadow-xl w-full h-auto">
+                    </div>
+                </section>
+                <section class="bg-gray-50 py-16 rounded-lg">
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl font-bold text-gray-800">Why Choose Rahmora?</h2>
+                        <p class="text-gray-600 mt-2">The core principles that define our brand.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 text-center px-6">
+                        <div class="flex flex-col items-center">
+                            <div class="bg-yellow-400 p-4 rounded-full mb-4">
+                                <i class="fas fa-shield-alt text-3xl text-black"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">Premium Protection</h3>
+                            <p class="text-gray-600">We use high-grade materials to ensure your devices are safe from
+                                everyday drops, scratches, and bumps.</p>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <div class="bg-yellow-400 p-4 rounded-full mb-4">
+                                <i class="fas fa-drafting-compass text-3xl text-black"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">Modern Design</h3>
+                            <p class="text-gray-600">Our in-house design team crafts unique, trend-setting accessories
+                                that make your tech stand out.</p>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <div class="bg-yellow-400 p-4 rounded-full mb-4">
+                                <i class="fas fa-star text-3xl text-black"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">Customer First</h3>
+                            <p class="text-gray-600">Your satisfaction is our priority. We offer dedicated support and a
+                                hassle-free return policy.</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Page: Cart -->
+        <div id="page-cart" class="page hidden bg-gray-50">
+            <div class="container mx-auto px-4 py-8">
+                <div class="text-center mb-8">
+                    <h1 class="text-3xl md:text-4xl font-bold">Your Shopping Cart</h1>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow-md">
+                        <div class="flex items-center border-b pb-4 mb-4">
+                            <img src="Images/RAHMORA IMAGES/CASES/BLACK.jpg" alt="Product Image"
+                                class="w-24 h-24 object-contain rounded-md">
+                            <div class="flex-grow ml-4">
+                                <h2 class="font-bold text-lg">Matte Black Silicone Case</h2>
+                                <p class="text-sm text-gray-600">for iPhone 15 Pro Max</p>
+                                <p class="font-bold text-md mt-1">₹699.00</p>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <button class="px-2 py-1 border rounded-md">-</button>
+                                <span>1</span>
+                                <button class="px-2 py-1 border rounded-md">+</button>
+                            </div>
+                            <div class="ml-6">
+                                <button class="text-gray-500 hover:text-red-600"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                        <div class="flex items-center border-b pb-4 mb-4">
+                            <img src="Images/RAHMORA IMAGES/WALLLET/WPHONE.jpg" alt="Product Image"
+                                class="w-24 h-24 object-contain rounded-md">
+                            <div class="flex-grow ml-4">
+                                <h2 class="font-bold text-lg">Magnetic Clear Case</h2>
+                                <p class="text-sm text-gray-600">for iPhone 14 Pro</p>
+                                <p class="font-bold text-md mt-1">₹699.00</p>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <button class="px-2 py-1 border rounded-md">-</button>
+                                <span>1</span>
+                                <button class="px-2 py-1 border rounded-md">+</button>
+                            </div>
+                            <div class="ml-6">
+                                <button class="text-gray-500 hover:text-red-600"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                        <a href="#" class="text-yellow-600 font-semibold hover:underline nav-link-js"
+                            data-page="phone-covers"><i class="fas fa-arrow-left mr-2"></i>Continue Shopping</a>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md h-fit">
+                        <h2 class="text-xl font-bold border-b pb-4 mb-4">Order Summary</h2>
+                        <div class="space-y-3">
+                            <div class="flex justify-between">
+                                <span>Subtotal</span>
+                                <span>₹2,198.00</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Shipping</span>
+                                <span class="text-green-600 font-semibold">FREE</span>
+                            </div>
+                            <div class="flex justify-between font-bold text-lg border-t pt-4 mt-2">
+                                <span>Total</span>
+                                <span>₹2,198.00</span>
+                            </div>
+                        </div>
+                        <div class="mt-6">
+                            <a href="#"
+                                class="block w-full text-center bg-yellow-400 text-black font-bold py-3 rounded-lg hover:bg-yellow-500 transition duration-300 nav-link-js"
+                                data-page="checkout">
+                                Proceed to Checkout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page: Checkout -->
+        <div id="page-checkout" class="page hidden bg-gray-50">
+            <div class="container mx-auto px-4 py-8">
+                <div class="text-center mb-8">
+                    <h1 class="text-3xl md:text-4xl font-bold">Checkout</h1>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow-md">
+                        <h2 class="text-xl font-bold border-b pb-4 mb-4">Shipping Information</h2>
+                        <form class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="fname" class="block text-sm font-medium text-gray-700">First
+                                        Name</label>
+                                    <input type="text" id="fname"
+                                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500">
+                                </div>
+                                <div>
+                                    <label for="lname" class="block text-sm font-medium text-gray-700">Last Name</label>
+                                    <input type="text" id="lname"
+                                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500">
+                                </div>
+                            </div>
+                            <div>
+                                <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+                                <input type="text" id="address"
+                                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500">
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div>
+                                    <label for="city" class="block text-sm font-medium text-gray-700">City</label>
+                                    <input type="text" id="city"
+                                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500">
+                                </div>
+                                <div>
+                                    <label for="state" class="block text-sm font-medium text-gray-700">State</label>
+                                    <input type="text" id="state"
+                                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500">
+                                </div>
+                                <div>
+                                    <label for="zip" class="block text-sm font-medium text-gray-700">ZIP Code</label>
+                                    <input type="text" id="zip"
+                                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500">
+                                </div>
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                                <input type="email" id="email"
+                                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500">
+                            </div>
+                        </form>
+                        <h2 class="text-xl font-bold border-b pb-4 mb-4 mt-8">Payment Method</h2>
+                        <div class="space-y-4">
+                            <div class="flex items-center p-4 border rounded-lg">
+                                <input id="payment_cod" name="payment_method" type="radio"
+                                    class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300">
+                                <label for="payment_cod" class="ml-3 block text-sm font-medium text-gray-700">
+                                    Cash on Delivery (COD)
+                                </label>
+                            </div>
+                            <div class="flex items-center p-4 border rounded-lg">
+                                <input id="payment_card" name="payment_method" type="radio"
+                                    class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" checked>
+                                <label for="payment_card" class="ml-3 block text-sm font-medium text-gray-700">
+                                    Credit / Debit Card / UPI
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md h-fit">
+                        <h2 class="text-xl font-bold border-b pb-4 mb-4">Order Summary</h2>
+                        <div class="space-y-3">
+                            <div class="flex justify-between">
+                                <span>Subtotal</span>
+                                <span>₹2,198.00</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Shipping</span>
+                                <span class="text-green-600 font-semibold">FREE</span>
+                            </div>
+                            <div class="flex justify-between font-bold text-lg border-t pt-4 mt-2">
+                                <span>Total</span>
+                                <span>₹2,198.00</span>
+                            </div>
+                        </div>
+                        <div class="mt-6">
+                            <button
+                                class="w-full text-center bg-yellow-400 text-black font-bold py-3 rounded-lg hover:bg-yellow-500 transition duration-300">
+                                Place Order
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Page: Category (Phone Covers, etc.) -->
+        <div id="page-category" class="page hidden">
+            <div class="container mx-auto px-4 py-8">
+                <div class="mb-6">
+                    <nav class="text-sm text-gray-500 mb-2">
+                        <a href="#" class="hover:text-yellow-500 nav-link-js" data-page="home">Home</a>
+                        <span class="mx-2">/</span>
+                        <span id="category-breadcrumb"></span>
+                    </nav>
+                    <h1 id="category-title" class="text-3xl md:text-4xl font-bold text-center"></h1>
+                </div>
+
+                <div
+                    class="bg-gray-50 p-4 rounded-lg mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                    <!-- Filters will be here -->
+                </div>
+
+                <!-- Products for the category will be dynamically injected here -->
+                <div id="category-products-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                </div>
+
+                <div class="flex justify-center mt-12">
+                    <nav id="pagination-container" class="flex items-center space-x-2">
+                        <!-- Pagination will be here -->
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page: Product Detail -->
+        <div id="page-product-detail" class="page hidden">
+            <div class="container mx-auto px-4 py-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Image Gallery -->
+                    <div>
+                        <div class="mb-4">
+                            <img id="product-detail-main-image" src="" alt="Main product image"
+                                class="w-full h-auto object-cover rounded-lg shadow-lg">
+                        </div>
+                        <div id="product-detail-thumbnails" class="grid grid-cols-5 gap-2">
+                            <!-- Thumbnails will be dynamically injected here -->
+                        </div>
+                    </div>
+                    <!-- Product Info -->
+                    <div class="flex flex-col justify-center">
+                        <h1 id="product-detail-name" class="text-3xl font-bold mb-2"></h1>
+                        <p id="product-detail-model" class="text-gray-500 mb-4"></p>
+                        <p id="product-detail-price" class="text-4xl font-bold text-yellow-500 mb-6"></p>
+                        <div class="mb-6">
+                            <h3 class="font-semibold text-lg mb-2">Description</h3>
+                            <p id="product-detail-description" class="text-gray-600 leading-relaxed"></p>
+                        </div>
+                        <div class="flex flex-col gap-4">
+                            <button id="product-detail-add-to-cart"
+                                class="w-full bg-yellow-400 text-black font-bold py-3 rounded-lg hover:bg-yellow-500 transition text-lg">Add
+                                to Cart</button>
+                            <button id="product-detail-buy-now"
+                                class="w-full bg-black text-white font-bold py-3 rounded-lg hover:bg-gray-800 transition text-lg">Buy
+                                Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="footer pt-12 pb-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <img src="Images/RAHMORA IMAGES/OTHER/RFINAL BLACK.png"
+                        onerror="this.onerror=null;this.src='https://placehold.co/150x40/000000/FFFFFF?text=RAHMORA';"
+                        class="h-8 mb-4" alt="Rahmora">
+                    <p class="text-sm">India's leading brand for mobile phone accessories.</p>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-lg mb-4">Quick Links</h3>
+                    <ul>
+                        <li class="mb-2"><a class="footer-link nav-link-js" data-page="home">Home</a></li>
+                        <li class="mb-2"><a class="footer-link nav-link-js" data-page="about">About Us</a></li>
+                        <li class="mb-2"><a href="#" id="contact-us-link" class="footer-link">Contact Us</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link">Track Your Order</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-lg mb-4">Our Policies</h3>
+                    <ul>
+                        <li class="mb-2"><a href="#" class="footer-link">Privacy Policy</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link">Return & Exchange Policy</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link">Shipping Policy</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-lg mb-4">Newsletter</h3>
+                    <p class="mb-4 text-sm">Subscribe to get notified about product launches, special offers and company
+                        news.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Enter your email"
+                            class="w-full px-3 py-2 text-black rounded-l-md focus:outline-none">
+                        <button
+                            class="bg-yellow-400 text-black px-4 py-2 font-bold rounded-r-md hover:bg-yellow-500">Go</button>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="border-t border-gray-700 mt-8 pt-6 text-center text-sm flex flex-col md:flex-row justify-between items-center">
+                <p>&copy; 2025 Rahmora. All Rights Reserved.</p>
+                <div class="flex space-x-4 text-xl mt-4 md:mt-0">
+                    <a href="#" class="footer-link"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="footer-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="footer-link"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="toast"></div>
+
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-center">
+        <!-- Contact options container, initially hidden -->
+        <div id="contact-options"
+            class="flex flex-col items-center space-y-3 mb-3 transition-all duration-300 transform scale-95 opacity-0 pointer-events-none">
+            <a href="mailto:info@rahmora.com" target="_blank"
+                class="w-14 h-14 flex items-center justify-center bg-red-500 text-white rounded-full shadow-lg hover:bg-red-600 transition transform hover:scale-110"
+                aria-label="Email Us" title="Email Us">
+                <i class="fas fa-envelope text-2xl"></i>
+            </a>
+            <a href="tel:+918084801080"
+                class="w-14 h-14 flex items-center justify-center bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition transform hover:scale-110"
+                aria-label="Call Us" title="Call Us">
+                <i class="fas fa-phone text-2xl"></i>
+            </a>
+            <a href="https://wa.me/+918084801080" target="_blank"
+                class="w-14 h-14 flex items-center justify-center bg-green-500 text-white rounded-full shadow-lg hover:bg-green-600 transition transform hover:scale-110"
+                aria-label="Chat on WhatsApp" title="Chat on WhatsApp">
+                <i class="fab fa-whatsapp text-2xl"></i>
+            </a>
+        </div>
+        <!-- Main Toggle Button -->
+        <button id="contact-toggle"
+            class="bg-yellow-400 text-black rounded-full w-20 h-20 flex items-center justify-center shadow-lg hover:scale-110 transition transform">
+            <i id="contact-toggle-icon" class="fas fa-comment-dots text-3xl transition-transform duration-300"></i>
+        </button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // --- Product Data ---
+            const products = [{
+                id: 1,
+                name: 'Magnetic Clear Case',
+                model: 'for iPhone 15 Pro Max',
+                price: 699.00,
+                category: 'phone-covers',
+                featured: true,
+                description: 'A crystal clear case with strong magnetic ring that shows off your phones original beauty and allows for seamless wireless charging.',
+                images: [
+                    'Images/RAHMORA IMAGES/WALLLET/WPHONE.jpg',
+                    'Images/RAHMORA IMAGES/CASES/BLUE1.jpg',
+                    'Images/RAHMORA IMAGES/CASES/BLACK.jpg',
+                ]
+            }, {
+                id: 2,
+                name: 'Aramid Fiber Case',
+                model: 'for iPhone 14 Pro Max',
+                price: 699.00,
+                category: 'phone-covers',
+                featured: true,
+                description: 'Ultra-thin, lightweight, and incredibly strong. This case offers premium protection without the bulk, crafted from high-quality aramid fiber.',
+                images: [
+                    'Images/RAHMORA IMAGES/WALLLET/4.jpg',
+                    'Images/RAHMORA IMAGES/CASES/GREEN.jpg',
+                    'Images/RAHMORA IMAGES/WALLLET/5.jpg',
+                ]
+            }, {
+                id: 3,
+                name: 'Vintage Leather Case',
+                model: 'for Samsung S24 Ultra',
+                price: 699.00,
+                category: 'phone-covers',
+                featured: true,
+                description: 'Experience timeless elegance with our genuine leather case. It develops a unique patina over time, making it truly yours.',
+                images: [
+                    'Images/RAHMORA IMAGES/WALLLET/5.jpg',
+                    'Images/RAHMORA IMAGES/WALLLET/BLACK.jpg',
+                    'Images/RAHMORA IMAGES/WALLLET/WPHONE.jpg',
+                ]
+            }, {
+                id: 4,
+                name: 'Frosted Case',
+                model: 'for OnePlus 11',
+                price: 699.00,
+                category: 'phone-covers',
+                featured: true,
+                description: 'A slim, minimalist case with a frosted matte finish that provides a comfortable grip and resists fingerprints.',
+                images: [
+                    'Images/RAHMORA IMAGES/WALLLET/BLACK.jpg',
+                    'Images/RAHMORA IMAGES/CASES/BLACK.jpg',
+                    'Images/RAHMORA IMAGES/CASES/BLUE.jpg',
+                ]
+            }, {
+                id: 5,
+                name: 'Matte Black Silicone Case',
+                model: 'for iPhone 15 Pro Max',
+                price: 999.00,
+                category: 'phone-covers',
+                featured: false,
+                description: 'Smooth to the touch, this silicone case fits snugly over the buttons and curves of your device without adding bulk.',
+                images: [
+                    'Images/RAHMORA IMAGES/CASES/BLACK.jpg',
+                    'Images/RAHMORA IMAGES/WALLLET/BLACK.jpg',
+                    'Images/RAHMORA IMAGES/WALLLET/4.jpg',
+                ]
+            }, {
+                id: 6,
+                name: 'Ocean Blue Hard Case',
+                model: 'for Samsung S24 Ultra',
+                price: 699.00,
+                category: 'phone-covers',
+                featured: false,
+                description: 'A durable hard shell case that provides robust protection against drops and impacts, in a stunning ocean blue color.',
+                images: [
+                    'Images/RAHMORA IMAGES/CASES/BLUE.jpg',
+                    'Images/RAHMORA IMAGES/CASES/BLUE1.jpg',
+                ]
+            }, {
+                id: 7,
+                name: 'Magsafe Leather Wallet',
+                model: 'Snaps on any Magsafe case',
+                price: 699.00,
+                category: 'magsafe-wallet',
+                featured: false,
+                description: 'Crafted from specially tanned and finished French leather, the wallet features strong built-in magnets that allow it to effortlessly snap into place on the back of your iPhone.',
+                images: [
+                    'Images/edited/WALLET.png',
+                    'Images/RAHMORA IMAGES/WALLLET/4.jpg',
+                ]
+            }];
+
+            const pages = document.querySelectorAll('.page');
+            const navLinks = document.querySelectorAll('.nav-link-js');
+            const toast = document.getElementById('toast');
+
+            // --- Page Navigation Logic ---
+            function showPage(pageId, context = null) {
+                pages.forEach(page => {
+                    if (page.id === `page-${pageId}`) {
+                        page.classList.remove('hidden');
+                    } else {
+                        page.classList.add('hidden');
+                    }
+                });
+
+                if (pageId === 'category' && context && context.category) {
+                    renderCategoryPage(context.category);
+                } else if (pageId === 'product-detail' && context && context.productId) {
+                    renderProductDetailPage(context.productId);
+                }
+
+                window.scrollTo(0, 0); // Scroll to top on page change
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const pageId = link.dataset.page;
+                    if (pageId) {
+                        const isCategoryPage = ['phone-covers', 'tempered-glass', 'magsafe-wallet',
+                            'membrane-protector'
+                        ].includes(pageId);
+                        if (isCategoryPage) {
+                            showPage('category', {
+                                category: pageId
+                            });
+                        } else {
+                            showPage(pageId);
+                        }
+                    }
+                });
+            });
+
+            // --- Toast Notification ---
+            function showToast(message) {
+                if (toast) {
+                    toast.textContent = message;
+                    toast.classList.add('show');
+                    setTimeout(() => {
+                        toast.classList.remove('show');
+                    }, 3000);
+                }
+            }
+
+
+            // --- Product Rendering Logic ---
+            function createProductCard(product) {
+                return `
+            <div class="product-card rounded-lg overflow-hidden border" data-product-id="${product.id}">
+                <div class="relative group">
+                    <img src="${product.images[0]}" alt="${product.name}" class="w-full h-48 md:h-64 object-cover">
+                    <button class="absolute top-2 right-2 bg-white p-2 rounded-full text-gray-500 hover:text-red-500 transition add-to-wishlist" data-product-id="${product.id}">
+                        <i class="far fa-heart"></i>
+                    </button>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-semibold text-sm md:text-lg truncate">${product.name}</h3>
+                    <p class="text-gray-500 text-xs md:text-base">${product.model}</p>
+                    <p class="font-bold text-md md:text-xl mt-2">₹${product.price.toFixed(2)}</p>
+                    <button class="add-to-cart w-full mt-4 bg-yellow-400 text-black font-bold py-2 rounded-lg hover:bg-yellow-500 transition text-sm md:text-base" data-product-id="${product.id}">
+                        Add to Cart
+                    </button>
+                </div>
+            </div>`;
+            }
+
+            function renderProducts(containerId, filterFn) {
+                const container = document.getElementById(containerId);
+                if (!container) return;
+
+                const productsToRender = products.filter(filterFn);
+                container.innerHTML = productsToRender.map(createProductCard).join('');
+            }
+
+
+            // --- Category Page Logic ---
+            function renderCategoryPage(category) {
+                const categoryTitle = document.getElementById('category-title');
+                const categoryBreadcrumb = document.getElementById('category-breadcrumb');
+                const categoryGrid = document.getElementById('category-products-grid');
+
+                const categoryName = category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase());
+
+                if (categoryTitle) categoryTitle.textContent = categoryName;
+                if (categoryBreadcrumb) categoryBreadcrumb.textContent = categoryName;
+
+                renderProducts('category-products-grid', p => p.category === category);
+            }
+
+            // --- Product Detail Page Logic ---
+            function renderProductDetailPage(productId) {
+                const product = products.find(p => p.id === parseInt(productId));
+                if (!product) return;
+
+                document.getElementById('product-detail-main-image').src = product.images[0];
+                document.getElementById('product-detail-name').textContent = product.name;
+                document.getElementById('product-detail-model').textContent = product.model;
+                document.getElementById('product-detail-price').textContent = `₹${product.price.toFixed(2)}`;
+                document.getElementById('product-detail-description').textContent = product.description;
+
+                const thumbnailsContainer = document.getElementById('product-detail-thumbnails');
+                thumbnailsContainer.innerHTML = product.images.map((imgSrc, index) =>
+                    `<img src="${imgSrc}" alt="Thumbnail ${index + 1}" class="thumbnail-img w-full h-auto object-cover rounded-md cursor-pointer ${index === 0 ? 'active' : ''}" data-src="${imgSrc}">`
+                ).join('');
+
+                // Add event listeners for thumbnails
+                thumbnailsContainer.querySelectorAll('.thumbnail-img').forEach(thumb => {
+                    thumb.addEventListener('click', function () {
+                        document.getElementById('product-detail-main-image').src = this.dataset
+                            .src;
+                        thumbnailsContainer.querySelectorAll('.thumbnail-img').forEach(t => t
+                            .classList.remove('active'));
+                        this.classList.add('active');
+                    });
+                });
+
+                // Update button data-attributes
+                document.getElementById('product-detail-add-to-cart').dataset.productId = product.id;
+                document.getElementById('product-detail-buy-now').dataset.productId = product.id;
+            }
+
+
+            // --- Event Delegation for Clicks ---
+            document.body.addEventListener('click', function (e) {
+                // Product Card Click
+                const productCard = e.target.closest('.product-card');
+                if (productCard && !e.target.closest('button')) {
+                    const productId = productCard.dataset.productId;
+                    showPage('product-detail', {
+                        productId
+                    });
+                    return;
+                }
+
+                // Add to Cart Click
+                const addToCartBtn = e.target.closest('.add-to-cart');
+                if (addToCartBtn) {
+                    const cartCountEl = document.getElementById('cart-count');
+                    let currentCount = parseInt(cartCountEl.textContent);
+                    cartCountEl.textContent = currentCount + 1;
+                    showToast('Item added to cart!');
+                    return;
+                }
+
+                // Add to Wishlist Click
+                const addToWishlistBtn = e.target.closest('.add-to-wishlist');
+                if (addToWishlistBtn) {
+                    e.preventDefault();
+                    if (addToWishlistBtn.classList.contains('active')) return;
+
+                    const wishlistCountEl = document.getElementById('wishlist-count');
+                    let currentCount = parseInt(wishlistCountEl.textContent);
+                    wishlistCountEl.textContent = currentCount + 1;
+
+                    const icon = addToWishlistBtn.querySelector('i');
+                    if (icon) {
+                        icon.classList.remove('far');
+                        icon.classList.add('fas', 'text-red-500');
+                    }
+                    addToWishlistBtn.classList.add('active');
+                    showToast('Item added to wishlist!');
+                    return;
+                }
+
+                // Product Detail Page "Add to Cart"
+                const pdpAddToCart = e.target.closest('#product-detail-add-to-cart');
+                if (pdpAddToCart) {
+                    const cartCountEl = document.getElementById('cart-count');
+                    let currentCount = parseInt(cartCountEl.textContent);
+                    cartCountEl.textContent = currentCount + 1;
+                    showToast('Item added to cart!');
+                    return;
+                }
+
+                // Product Detail Page "Buy Now"
+                const pdpBuyNow = e.target.closest('#product-detail-buy-now');
+                if (pdpBuyNow) {
+                    const cartCountEl = document.getElementById('cart-count');
+                    let currentCount = parseInt(cartCountEl.textContent);
+                    cartCountEl.textContent = currentCount + 1;
+                    showToast('Item added to cart! Proceeding to checkout...');
+                    setTimeout(() => showPage('checkout'), 500);
+                    return;
+                }
+            });
+
+
+            // --- Initial Setup ---
+            // Render featured products on home page
+            renderProducts('featured-products-grid', p => p.featured);
+
+            // --- Floating Contact Button Logic ---
+            const contactToggle = document.getElementById('contact-toggle');
+            const contactOptions = document.getElementById('contact-options');
+            const contactToggleIcon = document.getElementById('contact-toggle-icon');
+            const contactUsLinkFooter = document.getElementById('contact-us-link');
+
+            if (contactToggle && contactOptions && contactToggleIcon && contactUsLinkFooter) {
+                const openMenu = () => {
+                    contactOptions.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
+                    contactToggleIcon.classList.remove('fa-comment-dots');
+                    contactToggleIcon.classList.add('fa-times');
+                    contactToggle.classList.add('rotate-45');
+                };
+
+                const closeMenu = () => {
+                    contactOptions.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+                    contactToggleIcon.classList.add('fa-comment-dots');
+                    contactToggleIcon.classList.remove('fa-times');
+                    contactToggle.classList.remove('rotate-45');
+                };
+
+                contactToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (contactOptions.classList.contains('opacity-0')) {
+                        openMenu();
+                    } else {
+                        closeMenu();
+                    }
+                });
+
+                contactUsLinkFooter.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    openMenu();
+                });
+
+                // Close when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!contactOptions.classList.contains('opacity-0')) {
+                        closeMenu();
+                    }
+                });
+            }
+
+            // --- Mobile Menu ---
+            const menuToggle = document.getElementById('menu-toggle');
+            const menuClose = document.getElementById('menu-close');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (menuToggle && mobileMenu && menuClose) {
+                menuToggle.addEventListener('click', () => mobileMenu.classList.remove('-translate-x-full'));
+                menuClose.addEventListener('click', () => mobileMenu.classList.add('-translate-x-full'));
+                mobileMenu.querySelectorAll('.nav-link-js').forEach(link => {
+                    link.addEventListener('click', () => mobileMenu.classList.add('-translate-x-full'));
+                });
+            }
+
+            // --- Hero Slider Logic ---
+            const slidesContainer = document.getElementById("slides");
+            const prevBtn = document.getElementById("prev-slide");
+            const nextBtn = document.getElementById("next-slide");
+
+            if (slidesContainer && prevBtn && nextBtn) {
+                let currentIndex = 0;
+                const totalSlides = slidesContainer.children.length;
+                let slideInterval;
+
+                function goToSlide(index) {
+                    currentIndex = (index + totalSlides) % totalSlides;
+                    slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
+                }
+
+                function startSlideShow() {
+                    slideInterval = setInterval(() => goToSlide(currentIndex + 1), 5000);
+                }
+
+                function resetInterval() {
+                    clearInterval(slideInterval);
+                    startSlideShow();
+                }
+
+                nextBtn.addEventListener("click", () => {
+                    goToSlide(currentIndex + 1);
+                    resetInterval();
+                });
+                prevBtn.addEventListener("click", () => {
+                    goToSlide(currentIndex - 1);
+                    resetInterval();
+                });
+
+                startSlideShow();
+            }
+
+            // --- Pagination Logic (placeholder, can be expanded) ---
+            const paginationContainer = document.getElementById('pagination-container');
+            if (paginationContainer) {
+                // You can dynamically generate pagination links here based on product count
+            }
+        });
+    </script>
+</body>
+
+</html>
